@@ -1,0 +1,196 @@
+\documentclass[11pt]{beamer}
+\usepackage{framed}
+
+\usetheme{EastLansing}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usetikzlibrary{positioning, calc}
+\graphicspath{{images/}{../images/}}
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}
+  },
+}
+
+\author{Raju RImal}
+\title[Masters Thesis]{Evaluation of Models for predicting the average monthly Euro versus Norwegian krone exchange rate from financial and commodity information}
+%\subtitle{}
+%\logo{}
+\institute[NMBU]{Norwegian University of Life Sciences\\(NMBU)}
+%\date{}
+%\subject{}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\maketitle
+
+\begin{frame}[t]{The BIG Picture}
+\transwipe
+\begin{enumerate}[<+->]
+	\item{Identify functional relationship of Exchange rate with financial and commodity variables} \vfill
+	\item{Make prediction using different models} \vfill
+	\item{Compare the models} \vfill
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[c]
+\transwipe
+\begin{alertblock}{\begin{center}
+\LARGE Identify functional relationship of Exchange rate with financial and commodity variables
+\end{center}}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[t]{Exchange rate determination}
+\transwipe
+\begin{itemize}[<+->]
+\item Exchange Rate is a price of one currency in terms of another
+\item Determined from the demand and supply of the currency in Money Market (ForEx)
+\end{itemize}
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{Xr}
+\only<1->{\includegraphics[width=0.4\textwidth]{currency}} &
+\only<2->{\includegraphics[width=0.4\textwidth]{demandSupplyExc}} \\
+\end{tabularx}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{Factors affecting exchange rate}
+\transwipe
+\only<1->{\begin{equation}
+e=f\left(\Delta\text{Inf},\Delta\text{Int},\Delta\text{Inc},\Delta\text{Gc},\Delta\text{Exp}\right)
+\end{equation}}
+\begin{columns}
+\begin{column}[T]{0.6\textwidth}
+\begin{tabularx}{\textwidth}{lX}
+	\onslide<2->{$\Delta\text{Inf}$ = & \textbf{Inflation} differential between two countries} \\
+	\onslide<3->{$\Delta\text{Int}$ = & \textbf{Interest Rate} differential between two countries} \\
+	\onslide<4->{$\Delta\text{Inc}$ = & \textbf{Income} differential between two countries} \\
+	\onslide<5->{$\Delta\text{Gc}$ = & \textbf{Government Control} differential between two countries} \\
+	\onslide<6->{$\Delta\text{Exp}$ = & \textbf{Expectation} differential between two countries} \\
+\end{tabularx}
+\end{column}
+\begin{column}[T]{0.4\textwidth}
+	\only<2>{\includegraphics[width=\textwidth]{InflationEffect.pdf}}
+	\only<3>{\includegraphics[width=\textwidth]{InterestRateEffect.pdf}}
+	\only<4>{\includegraphics[width=\textwidth]{IncomeEffect.pdf}}
+	\only<5->{\textbf{Variable Selected:} }
+	\begin{itemize}[<5->]
+	\item Consumer Price Index (CPI)
+	\item Interest Rate (Norway and Euro Zone)
+	\item Loan Interest Rate
+	\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[t]{Involvement of Foreign Currency and Exchange Rate}
+\transwipe
+\begin{adjustbox}{width=0.8\textwidth, center}
+	\begin{tikzpicture}[
+	box/.style={draw, 
+				rectangle, 	
+				text width=3.1cm,
+				text centered,
+				node distance = 0.8cm and 0.5cm,
+				minimum height=1.5cm},
+	]
+		\node[box](main) {Exchange Rate Involve\\during};
+		\node[box, below = of main, visible on=<5->](sub2){Foreign Investment};
+		\node[box, left = of sub2, visible on=<2->](sub1){Trading of Goods and Services};
+		\node[box, right = of sub2, visible on=<6->](sub3){Travelling and many other activities};
+		\node[box, below = of sub1, visible on=<3->](ssub1){Import};
+		\node[box, right = of ssub1, visible on=<4->](ssub2){Export};
+		
+		\draw[->, visible on=<2->] (main) -- (sub1);
+		\draw[->, visible on=<5->] (main) -- (sub2);
+		\draw[->, visible on=<6->] (main) -- (sub3);
+		\draw[->, visible on=<3->] (sub1) -- (ssub1);
+		\draw[->, visible on=<4->] (sub1) -- (ssub2);
+	\end{tikzpicture}
+\end{adjustbox}
+
+\begin{block}<7->{}
+All these activities involve exchange of currency. These activities are recorded as \textbf{Balance of Payments account}.
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{Balance of Payment Account}
+Balance of Payment has two components - Current Account and Capital Account;
+\pause
+\begin{columns}
+	\begin{column}[t]{0.5\textwidth}
+		\begin{block}{Current Account\pause}
+			\begin{itemize}[<+->]
+				\item Payments for merchandise and services
+				\item Factor Income payments
+				\item Transfer payments
+			\end{itemize}
+		\end{block}
+	\end{column}
+	\begin{column}[t]{0.5\textwidth}
+		\begin{block}{\only{Capital Account}<6->}\pause
+			\begin{itemize}[<+->]
+				\item Direct foreign investment
+				\item Portfolio investment
+				\item Portfolio investment
+			\end{itemize}
+		\end{block}
+	\end{column}
+\end{columns}
+\pause
+The balance of payment account helped identifying commodity related variables that has relation with Exchange Rate.
+\end{frame}
+
+\begin{frame}[t]{More variables that influences Exchange Rate}
+\begin{multicols}{2}
+\begin{itemize}[<+->]
+\item Import
+	\begin{itemize}[<+->]
+	\item Elderly ships
+	\item New ships
+	\item Oil platforms
+	\item Excluding ships and oil platforms
+	\end{itemize}
+\item Export
+	\begin{itemize}[<+->]
+	\item Crude oil
+	\item Natural gas
+	\item Condensates
+	\item Elderly ships
+	\item New ships
+	\item Oil platforms
+	\item Excluding ships and oil platforms
+	\end{itemize}
+\item Oil Price
+\item Lagged Variables
+\end{itemize}
+\end{multicols}
+\includegraphics[height=4cm, page=1]{Import.pdf}
+%\only{\includegraphics[width=\textwidth]{ImpNewShip.pdf}}<3>
+%\only{\includegraphics[width=\textwidth]{ImpOilPlat.pdf}}<4>
+%\only{\includegraphics[width=\textwidth]{ImpExShipOilPlat.pdf}}<5>
+%
+%\only{\includegraphics[width=\textwidth]{ExpCrdOil.pdf}}<7>
+%\only{\includegraphics[width=\textwidth]{ExpNatGas.pdf}}<8>
+%\only{\includegraphics[width=\textwidth]{ExpCond.pdf}}<9>
+%\only{\includegraphics[width=\textwidth]{ExpOldShip.pdf}}<10>
+%\only{\includegraphics[width=\textwidth]{ExpNewShip.pdf}}<11>
+%\only{\includegraphics[width=\textwidth]{ExpOilPlat.pdf}}<12>
+%\only{\includegraphics[width=\textwidth]{ExpExShipOilPlat.pdf}}<13>
+\end{frame}
+\end{document}
